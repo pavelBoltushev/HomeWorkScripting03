@@ -4,9 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 public class Enemy : MonoBehaviour
-{
-    private const int ForwardDirection = 1;
-    private const int ReverseDirection = -1;
+{    
     private const string IsForwardWalk = "IsForwardWalk";
     private const string IsReverseWalk = "IsReverseWalk";
 
@@ -28,47 +26,31 @@ public class Enemy : MonoBehaviour
     
     private void Patrol()
     {
-        Transform currentPatrolPoint = _patrolPoints[_currentPatrolPointIndex];
-        int currentDirection = DetermineDirection(currentPatrolPoint);
-        SetAnimation(currentDirection);
-        Move(currentDirection);
-        bool isArrived = (currentDirection == ForwardDirection && transform.position.x >= currentPatrolPoint.position.x) ||
-                         (currentDirection == ReverseDirection && transform.position.x <= currentPatrolPoint.position.x);
+        Transform currentPatrolPoint = _patrolPoints[_currentPatrolPointIndex];        
+        SetAnimation(currentPatrolPoint);
+        Move(currentPatrolPoint);        
+    }
 
-        if (isArrived)
+    private void Move(Transform targetPoint)
+    {        
+        float xPosition = transform.position.x;
+        xPosition = Mathf.MoveTowards(xPosition, targetPoint.position.x, _speed * Time.deltaTime);
+        transform.position = new Vector2(xPosition, transform.position.y);
+
+        if (xPosition == targetPoint.position.x)
         {
             SetNextPatrolPointIndex();
         }
-    }
+    }    
 
-    private void Move(int direction)
-    {
-        float xPosition = transform.position.x;
-        xPosition += _speed * direction * Time.deltaTime;
-        transform.position = new Vector2(xPosition, transform.position.y);
-    }
-
-    private int DetermineDirection(Transform targetPoint)
+    private void SetAnimation(Transform targetPoint)
     {
         if (targetPoint.position.x > transform.position.x)
-        {
-            return ForwardDirection;
-        }
-        else
-        {
-            return ReverseDirection;
-        }
-    }
-
-    private void SetAnimation(int currentDirection)
-    {
-        if (currentDirection == ForwardDirection)
         {
             _animator.SetBool(IsForwardWalk, true);
             _animator.SetBool(IsReverseWalk, false);
         }
-
-        if (currentDirection == ReverseDirection)
+        else
         {
             _animator.SetBool(IsForwardWalk, false);
             _animator.SetBool(IsReverseWalk, true);
