@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AppleSpawner : MonoBehaviour
+public class MedipackSpawner : MonoBehaviour
 {
     [SerializeField] private Transform[] _spawnPoints;
-    [SerializeField] private Apple _apple;
+    [SerializeField] private Medipack _medipack;
     [SerializeField] private float _spawnPeriodicity;
 
     private void Start()
@@ -20,7 +20,7 @@ public class AppleSpawner : MonoBehaviour
         while (true)
         {
             int randomSpawnPointIndex = Random.Range(0, _spawnPoints.Length);
-            Instantiate(_apple, _spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
+            Instantiate(_medipack, _spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
             yield return wait;            
         }        
     }
