@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class EnemyMover : MonoBehaviour
 {
-    private const string IsForwardWalk = "IsForwardWalk";
-    private const string IsReverseWalk = "IsReverseWalk";
+    private const string IsWalk = "IsWalk";    
 
     [SerializeField] private float _speed;
     [SerializeField] private Transform[] _patrolPoints;
     [SerializeField] private float _pursuitContinueTime;
 
     private Animator _animator;
+    private SpriteRenderer _renderer;
     private int _currentPatrolPointIndex = 0;
     private Vector2 _detectionDirection = Vector2.right;
     private float _pursuitTimer;
@@ -21,6 +20,7 @@ public class EnemyMover : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -43,7 +43,7 @@ public class EnemyMover : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, _detectionDirection);
 
-        if (hit.collider != null && hit.collider.gameObject.TryGetComponent<PlayerHealth>(out var component))
+        if (hit.collider != null && hit.collider.gameObject.TryGetComponent<PlayerMover>(out var component))
         {
             player = hit.transform;
             return true;
@@ -77,14 +77,14 @@ public class EnemyMover : MonoBehaviour
         if (targetPoint.position.x > transform.position.x)
         {
             _detectionDirection = Vector2.right;
-            _animator.SetBool(IsForwardWalk, true);
-            _animator.SetBool(IsReverseWalk, false);
+            _animator.SetBool(IsWalk, true);
+            _renderer.flipX = false;
         }
         else
         {
             _detectionDirection = Vector2.left;
-            _animator.SetBool(IsForwardWalk, false);
-            _animator.SetBool(IsReverseWalk, true);
+            _animator.SetBool(IsWalk, true);
+            _renderer.flipX = true;
         }
     }    
 }

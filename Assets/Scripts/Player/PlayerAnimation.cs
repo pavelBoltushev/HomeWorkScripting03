@@ -1,45 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class PlayerAnimation : MonoBehaviour
 {
-    private const string IsForwardWalk = "IsForwardWalk";
-    private const string IsReverseWalk = "IsReverseWalk";
+    private const string IsWalk = "IsWalk";
+    private const string Damaged = "Damaged";
+    private const string Healed = "Healed";
 
     private Animator _animator;
+    private SpriteRenderer _renderer;    
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-    }
+        _renderer = GetComponent<SpriteRenderer>();        
+    }     
 
-    private void Update()
+    public void WalkForward()
     {
-        ProcessInput();
+        _renderer.flipX = false;
+        _animator.SetBool(IsWalk, true);
     }
 
-    private void ProcessInput()
+    public void WalkReverse()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            _animator.SetBool(IsForwardWalk, true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.D))
-        {
-            _animator.SetBool(IsForwardWalk, false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            _animator.SetBool(IsReverseWalk, true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            _animator.SetBool(IsReverseWalk, false);
-        }
+        _renderer.flipX = true;
+        _animator.SetBool(IsWalk, true);
     }
+
+    public void Stand()
+    {
+        _animator.SetBool(IsWalk, false);
+    }
+
+    public void OnDamaged()
+    {
+        _animator.SetTrigger(Damaged);
+    }
+
+    public void OnHealed()
+    {
+        _animator.SetTrigger(Healed);
+    }    
 }

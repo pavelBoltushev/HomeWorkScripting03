@@ -1,39 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(PlayerHealth))]
 public class PlayerMover : MonoBehaviour
 {
     private const int ForwardDirection = 1;
     private const int ReverseDirection = -1;
 
     [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForce;
-    [SerializeField] private float _damagePullBackForce;
+    [SerializeField] private float _jumpForce;    
 
-    private Rigidbody2D _rigidbody;
-    private PlayerHealth _playerHealth;
+    private Rigidbody2D _rigidbody;    
     private bool _canJump = true;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _playerHealth = GetComponent<PlayerHealth>();
-    }
-
-    private void Update()
-    {
-        ProcessInput();
-    }
-
-    public void PullBackFrom(Transform enemy)
-    {
-        Vector2 direction = (transform.position - enemy.position).normalized;
-        _rigidbody.velocity = new Vector2(0, 0);
-        _rigidbody.AddForce(direction * _damagePullBackForce, ForceMode2D.Impulse);
-    }
+        _rigidbody = GetComponent<Rigidbody2D>();        
+    }    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -49,35 +31,26 @@ public class PlayerMover : MonoBehaviour
         {
             _canJump = false;
         }
+    }    
+    
+    public void Jump()
+    {
+        if (_canJump)
+            _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+    }    
+
+    public void MoveForward()
+    {
+        Move(ForwardDirection);
     }
 
-    private void ProcessInput()
+    public void MoveReverse()
     {
-        if (Input.GetKey(KeyCode.D))
-        {
-            Move(ForwardDirection);
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            Move(ReverseDirection);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && _canJump)
-        {
-            Jump();
-        }
+        Move(ReverseDirection);
     }
 
     private void Move(int direction)
-    {
-        float xPosition = transform.position.x;
-        xPosition += _speed * direction * Time.deltaTime;
-        transform.position = new Vector2(xPosition, transform.position.y);
+    {        
+        transform.Translate(new Vector2(_speed * direction * Time.deltaTime, 0));
     }
-
-    private void Jump()
-    {
-        _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-    }    
 }
