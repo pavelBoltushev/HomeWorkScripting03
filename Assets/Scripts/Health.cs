@@ -7,9 +7,7 @@ public class Health : MonoBehaviour
 
     private int _value;
 
-    public event Action ValueChanged;
-    public event Action Damaged;
-    public event Action Healed;
+    public event Action<int> ValueChanged;    
 
     public int MaxValue => _maxValue;
     public int Value => _value;
@@ -25,8 +23,7 @@ public class Health : MonoBehaviour
             damage = 0;
 
         _value -= damage;
-        ValueChanged?.Invoke();
-        Damaged?.Invoke();
+        ValueChanged?.Invoke(-damage);        
 
         if (_value <= 0)
             Die();
@@ -38,8 +35,7 @@ public class Health : MonoBehaviour
             heal = 0;
 
         _value += heal;
-        ValueChanged?.Invoke();
-        Healed?.Invoke();
+        ValueChanged?.Invoke(heal);        
 
         if (_value > _maxValue)
             _value = _maxValue;

@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMover : MonoBehaviour
 {
     private const int ForwardDirection = 1;
-    private const int ReverseDirection = -1;
+    private const int ReverseDirection = -1;    
 
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;    
@@ -19,7 +20,7 @@ public class PlayerMover : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<TileMap>(out var tileMap))
+        if (collision.TryGetComponent(out TilemapCollider2D tileMap))
         {
             _canJump = true;
         }            
@@ -27,7 +28,7 @@ public class PlayerMover : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<TileMap>(out var tileMap))
+        if (collision.TryGetComponent(out TilemapCollider2D tileMap))
         {
             _canJump = false;
         }

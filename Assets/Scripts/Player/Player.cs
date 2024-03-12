@@ -21,33 +21,31 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        _input.DKeyHold += _mover.MoveForward;
-        _input.AKeyHold += _mover.MoveReverse;
-        _input.SpaceKeyDown += _mover.Jump;
-        _input.DKeyDown += _animation.WalkForward;
-        _input.AKeyDown += _animation.WalkReverse;
-        _input.DKeyUp += _animation.Stand;
-        _input.AKeyUp += _animation.Stand;
-        _health.Damaged += _animation.OnDamaged;
-        _health.Healed += _animation.OnHealed;
+        _input.RightMoveKeyHold += _mover.MoveForward;
+        _input.LeftMoveKeyHold += _mover.MoveReverse;
+        _input.JumpKeyPressed += _mover.Jump;
+        _input.RightMoveKeyPressed += _animation.WalkForward;
+        _input.LeftMoveKeyPressed += _animation.WalkReverse;
+        _input.RightMoveKeyReleased += _animation.Stand;
+        _input.LeftMoveKeyReleased += _animation.Stand;
+        _health.ValueChanged += _animation.OnHealthValueChanged;        
     }
 
     private void OnDisable()
     {
-        _input.DKeyHold -= _mover.MoveForward;
-        _input.AKeyHold -= _mover.MoveReverse;
-        _input.SpaceKeyDown -= _mover.Jump;
-        _input.DKeyDown -= _animation.WalkForward;
-        _input.AKeyDown -= _animation.WalkReverse;
-        _input.DKeyUp -= _animation.Stand;
-        _input.AKeyUp -= _animation.Stand;
-        _health.Damaged -= _animation.OnDamaged;
-        _health.Healed -= _animation.OnHealed;
+        _input.RightMoveKeyHold -= _mover.MoveForward;
+        _input.LeftMoveKeyHold -= _mover.MoveReverse;
+        _input.JumpKeyPressed -= _mover.Jump;
+        _input.RightMoveKeyPressed -= _animation.WalkForward;
+        _input.LeftMoveKeyPressed -= _animation.WalkReverse;
+        _input.RightMoveKeyReleased -= _animation.Stand;
+        _input.LeftMoveKeyReleased -= _animation.Stand;
+        _health.ValueChanged -= _animation.OnHealthValueChanged;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Medipack>(out var mediPack))
+        if (collision.TryGetComponent(out Medipack mediPack))
         {
             _health.TakeHeal(mediPack.HealingValue);
             Destroy(mediPack.gameObject);

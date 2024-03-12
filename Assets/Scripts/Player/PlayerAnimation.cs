@@ -34,13 +34,12 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetBool(IsWalk, false);
     }
 
-    public void OnDamaged()
+    public void OnHealthValueChanged(int changeValue)
     {
-        _animator.SetTrigger(Damaged);
-    }
+        if (changeValue < 0)
+            _animator.SetTrigger(Damaged);
 
-    public void OnHealed()
-    {
-        _animator.SetTrigger(Healed);
-    }    
+        if (changeValue > 0)
+            _animator.SetTrigger(Healed);
+    }       
 }

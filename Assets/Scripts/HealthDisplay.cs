@@ -29,7 +29,7 @@ public class HealthDisplay : MonoBehaviour
         _health.ValueChanged -= StartChangeDisplayedValue;
     }
 
-    public void StartChangeDisplayedValue()
+    public void StartChangeDisplayedValue(int changeValue)
     {
         if (_isChangeDisplayedValueInProgress == false)        
             StartCoroutine(ChangeDisplayedValue());        
