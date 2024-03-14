@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3810761779719162347}
   - component: {fileID: 7805456723806634995}
+  - component: {fileID: 8774062486507163593}
   - component: {fileID: 3027023550018595333}
   - component: {fileID: 1766163808851281156}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Medipack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +48,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healingValue: 3
+--- !u!114 &8774062486507163593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7232334021838808225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f01e9864945cac42a0ec0c042ecd7d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &3027023550018595333
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -1,8 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInput))]
-[RequireComponent(typeof(PlayerMover))]
-[RequireComponent(typeof(PlayerAnimation))]
+[RequireComponent(typeof(PlayerInput), typeof(PlayerMover), typeof(PlayerAnimation))]
 [RequireComponent(typeof(Health))]
 public class Player : MonoBehaviour
 {

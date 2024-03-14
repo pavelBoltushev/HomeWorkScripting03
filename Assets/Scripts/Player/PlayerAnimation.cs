@@ -1,7 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator), typeof(SpriteRenderer))]
 public class PlayerAnimation : MonoBehaviour
 {
     private const string IsWalk = "IsWalk";
@@ -34,7 +33,7 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetBool(IsWalk, false);
     }
 
-    public void OnHealthValueChanged(int changeValue)
+    public void OnHealthValueChanged(float changeValue)
     {
         if (changeValue < 0)
             _animator.SetTrigger(Damaged);

@@ -1,25 +1,20 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class EnemyMover : MonoBehaviour
-{
-    private const string IsWalk = "IsWalk";    
-
+{       
     [SerializeField] private float _speed;
     [SerializeField] private Transform[] _patrolPoints;
     [SerializeField] private float _pursuitContinueTime;
-
-    private Animator _animator;
+       
     private SpriteRenderer _renderer;
     private int _currentPatrolPointIndex = 0;
     private Vector2 _detectionDirection = Vector2.right;
     private float _pursuitTimer;
     private Transform _pursuitTarget;
 
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
+    private void Awake()    {
+        
         _renderer = GetComponent<SpriteRenderer>();
     }
 
@@ -39,18 +34,18 @@ public class EnemyMover : MonoBehaviour
             Patrol();        
     }
 
-    private bool TryDetectPlayer(out Transform player)
-    {
+    private bool TryDetectPlayer(out Transform playerTransform)
+    {       
         RaycastHit2D hit = Physics2D.Raycast(transform.position, _detectionDirection);
 
-        if (hit.collider != null && hit.collider.gameObject.TryGetComponent<PlayerMover>(out var component))
+        if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out Player player))
         {
-            player = hit.transform;
+            playerTransform = hit.transform;
             return true;
         }
         else
         {
-            player = null;
+            playerTransform = null;
             return false;
         }
     }
@@ -76,14 +71,12 @@ public class EnemyMover : MonoBehaviour
     {
         if (targetPoint.position.x > transform.position.x)
         {
-            _detectionDirection = Vector2.right;
-            _animator.SetBool(IsWalk, true);
+            _detectionDirection = Vector2.right;            
             _renderer.flipX = false;
         }
         else
         {
-            _detectionDirection = Vector2.left;
-            _animator.SetBool(IsWalk, true);
+            _detectionDirection = Vector2.left;            
             _renderer.flipX = true;
         }
     }    
