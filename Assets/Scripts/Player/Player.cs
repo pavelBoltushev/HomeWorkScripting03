@@ -4,10 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class Player : MonoBehaviour
 {
+    [SerializeField] private VampirismAura _vampirism;
+
     private PlayerInput _input;
     private PlayerMover _mover;
     private PlayerAnimation _animation;
-    private Health _health;
+    private Health _health;    
 
     private void Awake()
     {
@@ -26,7 +28,8 @@ public class Player : MonoBehaviour
         _input.LeftMoveKeyPressed += _animation.WalkReverse;
         _input.RightMoveKeyReleased += _animation.Stand;
         _input.LeftMoveKeyReleased += _animation.Stand;
-        _health.ValueChanged += _animation.OnHealthValueChanged;        
+        _input.VampirismKeyPressed += _vampirism.Activate;
+        _health.ValueChanged += _animation.OnHealthValueChanged;
     }
 
     private void OnDisable()
@@ -38,6 +41,7 @@ public class Player : MonoBehaviour
         _input.LeftMoveKeyPressed -= _animation.WalkReverse;
         _input.RightMoveKeyReleased -= _animation.Stand;
         _input.LeftMoveKeyReleased -= _animation.Stand;
+        _input.VampirismKeyPressed -= _vampirism.Activate;
         _health.ValueChanged -= _animation.OnHealthValueChanged;
     }
 

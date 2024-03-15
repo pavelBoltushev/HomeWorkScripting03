@@ -6,6 +6,7 @@ public class PlayerInput : MonoBehaviour
     private KeyCode _rightMoveKey = KeyCode.D;
     private KeyCode _leftMoveKey = KeyCode.A;
     private KeyCode _jumpKey = KeyCode.Space;
+    private KeyCode _vampirismKey = KeyCode.V;
 
     public event Action RightMoveKeyPressed;
     public event Action RightMoveKeyReleased;
@@ -14,6 +15,7 @@ public class PlayerInput : MonoBehaviour
     public event Action LeftMoveKeyReleased;
     public event Action LeftMoveKeyHold;
     public event Action JumpKeyPressed;
+    public event Action VampirismKeyPressed;
 
     private void Update()
     {
@@ -37,5 +39,8 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetKeyDown(_jumpKey))
             JumpKeyPressed?.Invoke();
+
+        if (Input.GetKeyDown(_vampirismKey))
+            VampirismKeyPressed?.Invoke();
     }
 }

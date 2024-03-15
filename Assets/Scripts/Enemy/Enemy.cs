@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class EnemyMover : MonoBehaviour
+public class Enemy : MonoBehaviour
 {       
     [SerializeField] private float _speed;
     [SerializeField] private Transform[] _patrolPoints;
